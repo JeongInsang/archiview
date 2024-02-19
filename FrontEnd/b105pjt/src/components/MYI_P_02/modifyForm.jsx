@@ -25,6 +25,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import ConfirmModal from "./confirmModal";
 import { deleteReply, modifyReply } from "../../api/replyAPI";
 import { useNavigate } from "react-router-dom";
+import { Margin } from "@mui/icons-material";
 
 let session;
 let publisher;
@@ -69,8 +70,7 @@ const MakeSession = async (videoRef) => {
 const ModifyForm = (props) => {
   const videoRef = useRef(null); // 비디오 요소 참조를 위한 ref
   const [recordingURL, setRecordingURL] = useState(
-    "https://i10b105.p.ssafy.io/api/files/recording/" +
-      props.reply.replies[0].videoUrl
+    "홈페이지 URL/api/files/recording/" + props.reply.replies[0].videoUrl
   );
   replyId = props.reply.replies[0].id;
   const [isRecording, setIsRecording] = useState(false);
@@ -131,9 +131,7 @@ const ModifyForm = (props) => {
         recording: session.sessionId,
       },
       (resp) => {
-        setRecordingURL(
-          "https://i10b105.p.ssafy.io/api/files/recording/" + urlSession
-        );
+        setRecordingURL("홈페이지 URL/api/files/recording/" + urlSession);
         setIsRecording(false);
 
         // 세션 및, 퍼블리셔 종료 로직
@@ -167,12 +165,8 @@ const ModifyForm = (props) => {
         label="제목"
         variant="filled"
         value={title}
+        style={{ marginBottom: "10px" }}
       />
-
-      <div className="Insert-search">
-        <SearchTab></SearchTab>
-      </div>
-
       <div>
         {recordingURL && (
           <div>

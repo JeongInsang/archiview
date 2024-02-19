@@ -152,7 +152,7 @@ const ProfileEditModal = ({ open, handleCancle, setIntroduce, introduce }) => {
         if (profile.includes("https")) {
           profileURL = "http://i10b105.p.ssafy.io/api/files/profile/" + userId;
         } else {
-          profileURL = "https://i10b105.p.ssafy.io/api/files/profile/" + userId;
+          profileURL = "홈페이지 URL/api/files/profile/" + userId;
         }
         dispatch({
           type: "UPDATE_PROFILE",

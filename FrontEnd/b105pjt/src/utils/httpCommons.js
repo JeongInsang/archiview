@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const VITE_NAVER_CLIENT_ID = "vDZwnjUq2L0ecmGLqTDE";
-const VITE_NAVER_CLIENT_PW = "AFfmYdxuEK";
+const VITE_NAVER_CLIENT_ID = "NAVER API ID";
+const VITE_NAVER_CLIENT_PW = "NAVER API PW";
 const VITE_NAVER_SEARCH_URL = "https://openapi.naver.com/v1/search/";
 
 // Naver API용 axios 인스턴스 생성

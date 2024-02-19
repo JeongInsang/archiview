@@ -62,9 +62,7 @@ const LoginModal = ({ onSwitch, close }) => {
             accessToken: resp.data.data.accessToken,
             role: resp.data.data.role,
             userId: resp.data.data.id,
-            profile:
-              "https://i10b105.p.ssafy.io/api/files/profile/" +
-              resp.data.data.id,
+            profile: "홈페이지 URL/api/files/profile/" + resp.data.data.id,
           });
           localStorage.setItem("accessToken", resp.data.data.accessToken);
           resetForm();

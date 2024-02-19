@@ -196,8 +196,8 @@ const MYI_P_01 = () => {
         {profileData && (
           <ProfileSection
             imageUrl={
-              "https://i10b105.p.ssafy.io/api/files/profile/" +
-                profileData.id || "default-image-url.jpg"
+              "홈페이지 URL/api/files/profile/" + profileData.id ||
+              "default-image-url.jpg"
             }
           >
             <Typography variant="h5" gutterBottom>
@@ -226,8 +226,7 @@ const MYI_P_01 = () => {
                     component="img"
                     sx={mediaStyles}
                     image={
-                      "https://i10b105.p.ssafy.io/api/files/thumbnail/" +
-                      reply.thumbnailUrl
+                      "홈페이지 URL/api/files/thumbnail/" + reply.thumbnailUrl
                     }
                     alt="Thumbnail Image"
                   />

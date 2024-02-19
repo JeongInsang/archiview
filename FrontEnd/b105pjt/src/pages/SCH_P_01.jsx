@@ -136,8 +136,7 @@ function SCH_P_01() {
               <video
                 controls
                 src={
-                  "https://i10b105.p.ssafy.io/api/files/recording/" +
-                  replyDetails.videoUrl
+                  "홈페이지 URL/api/files/recording/" + replyDetails.videoUrl
                 }
                 width="500"
               ></video>
@@ -198,8 +197,7 @@ function SCH_P_01() {
                             : "blur(10px)",
                       }}
                       image={
-                        "https://i10b105.p.ssafy.io/api/files/thumbnail/" +
-                        reply.thumbnailUrl
+                        "홈페이지 URL/api/files/thumbnail/" + reply.thumbnailUrl
                       }
                       alt="Thumbnail Image"
                     />

@@ -115,9 +115,7 @@ const OpenVideo = ({ setSessionUrl }) => {
       },
       (resp) => {
         // Start - Signaling Server API
-        setRecordingURL(
-          "https://i10b105.p.ssafy.io/api/files/recording/" + urlSession
-        );
+        setRecordingURL("홈페이지 URL/api/files/recording/" + urlSession);
         setIsRecording(false);
 
         // 세션 및, 퍼블리셔 종료 로직
