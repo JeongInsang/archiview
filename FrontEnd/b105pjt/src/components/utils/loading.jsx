@@ -5,7 +5,7 @@ import LoadingImg from "../../assets/img/loading.gif";
 import { Backdrop } from "@mui/material";
 
 const Loading = () => {
-  const isLoading = useSelector((state) => state.isLoading);
+  const { isLoading } = useSelector((state) => state.loading);
   const [loadingText, setLoadingText] = useState("Loading");
 
   useEffect(() => {

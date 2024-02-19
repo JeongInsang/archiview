@@ -1,14 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import App, { authReducer } from "./App";
+import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-
-const devTools = window.__REDUX_DEVTOOLS_EXTENSION__;
-const store = createStore(authReducer, devTools && devTools());
+import { store } from "./store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -31,7 +31,7 @@ const PasswordCheckModal = ({ open, onClose }) => {
   const [error, setError] = useState(""); // 오류 메시지 상태를 추가합니다.
   const navigate = useNavigate();
 
-  const token = useSelector((state) => state.accessToken);
+  const { accessToken } = useSelector((state) => state.user);
 
   // 내 캘린더 클릭시
   const moveMypage = () => {
@@ -55,7 +55,7 @@ const PasswordCheckModal = ({ open, onClose }) => {
   const handleSubmit = () => {
     // 현재 비밀번호 확인 로직 구현
     validPW(
-      token,
+      accessToken,
       { pw: currentPassword },
       (resp) => {
         onPasswordVerified();

@@ -20,15 +20,16 @@ import {
 } from "../../api/mypageAPI";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "../../store/slice/userSlice";
 
 const ProfileSection = () => {
   const [openModal, setOpenModal] = useState(false);
   const accessToken = localStorage.getItem("accessToken");
-  const profile = useSelector((state) => state.profile);
+  const { profile } = useSelector((state) => state.user);
 
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [introduce, setIntroduce] = useState();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [introduce, setIntroduce] = useState("");
 
   useEffect(() => {
     userDetail(
@@ -39,8 +40,12 @@ const ProfileSection = () => {
       },
       (resp) => {
         setName(resp.data.data.name);
-        setEmail(resp.data.data.email);
-        setIntroduce(resp.data.data.introduce);
+        if (resp.data.data.email) {
+          setEmail(resp.data.data.email);
+        }
+        if (resp.data.data.introduce) {
+          setIntroduce(resp.data.data.introduce);
+        }
       }
     );
   }, []);
@@ -120,9 +125,7 @@ const ProfileSection = () => {
 
 const ProfileEditModal = ({ open, handleCancle, setIntroduce, introduce }) => {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.accessToken);
-  const profile = useSelector((state) => state.profile);
-  const userId = useSelector((state) => state.userId);
+  const { accessToken, profile, userId } = useSelector((state) => state.user);
 
   const [newProfileUrl, setNewProfileUrl] = useState("");
   const [profileFile, setProfileFile] = useState(null);
@@ -154,16 +157,17 @@ const ProfileEditModal = ({ open, handleCancle, setIntroduce, introduce }) => {
         } else {
           profileURL = "홈페이지 URL/api/files/profile/" + userId;
         }
-        dispatch({
-          type: "UPDATE_PROFILE",
-          profile: profileURL,
-        });
+        dispatch(
+          updateProfile({
+            profile: profileURL,
+          })
+        );
       });
     }
 
     updateUserDetail(
       {
-        Authorization: token,
+        Authorization: accessToken,
       },
       {
         introduce: newIntroduce,

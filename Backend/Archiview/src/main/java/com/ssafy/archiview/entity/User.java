@@ -55,11 +55,8 @@ public class User implements Persistable<String> {
     @Column(name = "created_at")
     private LocalDateTime createdAt;  // 생성 날짜
 
-    @Column(name = "refresh_token")
-    private String refreshToken;
-
     @Builder
-    public User(String id, String pw, String name, String email, String profileUrl, String introduce, Role role, LocalDateTime createdAt, String refreshToken) {
+    public User(String id, String pw, String name, String email, String profileUrl, String introduce, Role role, LocalDateTime createdAt) {
         this.id = id;
         this.pw = pw;
         this.name = name;
@@ -68,11 +65,6 @@ public class User implements Persistable<String> {
         this.introduce = introduce;
         this.role = role;
         this.createdAt = createdAt;
-        this.refreshToken = refreshToken;
-    }
-
-    public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
     }
 
     public void updatePassword(String pw){
@@ -108,7 +100,6 @@ public class User implements Persistable<String> {
                 .introduce(introduce)
                 .profileUrl(profileUrl)
                 .role(role)
-                .refreshToken(refreshToken)
                 .build();
     }
 

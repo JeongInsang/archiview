@@ -218,11 +218,11 @@ const ManageAccount = () => {
 
   const navigate = useNavigate();
 
-  const token = useSelector((state) => state.accessToken);
+  const { accessToken } = useSelector((state) => state.user);
 
   useEffect(() => {
     getUserList(
-      token,
+      accessToken,
       (resp) => {
         const newRow = resp.data.data.map((item) =>
           createData(

@@ -3,8 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const MemberAuth = ({ children }) => {
-  const role = useSelector((state) => state.role);
-  const userId = useSelector((state) => state.userId);
+  const { role, userId } = useSelector((state) => state.user);
   const { state } = useLocation();
   // URL 직접 접근일 경우
   if (state == null) {

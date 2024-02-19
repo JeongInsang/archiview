@@ -2,12 +2,12 @@ import React from "react";
 import { Modal, Box, Typography, Button } from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen"; // 로그인 아이콘 추가
 import { useDispatch, useSelector } from "react-redux";
+import { closeAlert, openModal } from "../../store/slice/modalSlice";
 
 const AlertModal = () => {
   const dispatch = useDispatch();
-  const isAlertOpen = useSelector((state) => state.isAlertOpen);
-  const alertMessage = useSelector((state) => state.alertMessage);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const { alertMessage, isAlertOpen } = useSelector((state) => state.modal);
+  const { isLoggedIn } = useSelector((state) => state.user);
 
   const style = {
     position: "absolute",
@@ -23,21 +23,21 @@ const AlertModal = () => {
     textAlign: "center", // 텍스트 중앙 정렬
   };
 
-  const closeAlert = () => {
-    dispatch({ type: "CLOSE_ALERT" });
+  const alertClose = () => {
+    dispatch(closeAlert());
   };
 
   const onConfirm = () => {
-    dispatch({ type: "CLOSE_ALERT" });
+    dispatch(closeAlert());
     if (!isLoggedIn) {
-      dispatch({ type: "OPEN_MODAL" });
+      dispatch(openModal());
     }
   };
 
   return (
     <Modal
       open={isAlertOpen}
-      onClose={closeAlert}
+      onClose={alertClose}
       aria-labelledby="alert-modal-title"
       aria-describedby="alert-modal-description"
     >

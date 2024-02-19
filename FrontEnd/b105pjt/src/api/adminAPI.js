@@ -51,4 +51,23 @@ async function setUserDown(param, token, success, fail) {
     .catch(fail);
 }
 
-export { getUserList, setUserBlock, setUserDown, setUserUp };
+function deleteReplyByAdmin(param, token, success, fail) {
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  return baseURL
+    .delete(`admin/replies/${param}`, config)
+    .then(success)
+    .catch(fail);
+}
+
+export {
+  getUserList,
+  setUserBlock,
+  setUserDown,
+  setUserUp,
+  deleteReplyByAdmin,
+};

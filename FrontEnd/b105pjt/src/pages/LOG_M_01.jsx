@@ -6,8 +6,12 @@ import FindIDModal from "../components/LOG_M_01/findIDModal";
 import FindPWModal from "../components/LOG_M_01/findPWModal";
 import AssignUser from "../components/LOG_M_01/assignUser";
 import ChangPWModal from "../components/LOG_M_01/changePWModal";
-const LOG_M_01 = ({ close }) => {
+import { useDispatch } from "react-redux";
+import { closeModal } from "../store/slice/modalSlice";
+const LOG_M_01 = () => {
   const [currentComponent, setCurrentComponent] = useState("Login");
+  const [emailToken, setEmailToken] = useState("");
+  const dispatch = useDispatch();
 
   const switchComponent = (componentName) => {
     setCurrentComponent(componentName);
@@ -16,15 +20,15 @@ const LOG_M_01 = ({ close }) => {
   const renderComponent = () => {
     switch (currentComponent) {
       case "Login":
-        return <LoginModal close={close} onSwitch={switchComponent} />;
+        return <LoginModal onSwitch={switchComponent} />;
       case "FindID":
         return <FindIDModal onSwitch={switchComponent} />;
       case "FindPW":
-        return <FindPWModal onSwitch={switchComponent} />;
+        return <FindPWModal onSwitch={switchComponent} setEmailToken={setEmailToken} />;
       case "Assign":
         return <AssignUser onSwitch={switchComponent} />;
       case "ChangePW":
-        return <ChangPWModal onSwitch={switchComponent} />;
+        return <ChangPWModal onSwitch={switchComponent} emailToken={emailToken}/>;
       default:
         return null;
     }
@@ -34,7 +38,7 @@ const LOG_M_01 = ({ close }) => {
       {/* 닫기 버튼 */}
       <IconButton
         aria-label="close"
-        onClick={close}
+        onClick={() => dispatch(closeModal())}
         style={{
           position: "absolute",
           right: -32,

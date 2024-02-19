@@ -14,6 +14,7 @@ import PasswordCheckModal from "./passwordCheck"; // 비밀번호 확인 모달 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signout } from "../../api/userAPI";
+import { userLogout } from "../../store/slice/userSlice";
 
 // 확인 다이얼로그 컴포넌트
 // onConfirm 함수는 회원 탈퇴를 확인할 때 호출되는 함수 -> 이건 ActionButton 컴포넌트에서 정의된 'handleConfirmDelete' 함수
@@ -81,9 +82,7 @@ const ActionButton = ({ onDelete }) => {
     onDelete();
     handleCloseConfirmDialog();
     setOpenPasswordCheckModal(false);
-    dispatch({
-      type: "LOGOUT",
-    });
+    dispatch(userLogout());
     navigate("/", { replace: true });
   };
 

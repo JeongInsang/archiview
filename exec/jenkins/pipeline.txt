@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    
+    tools {
+        gradle "gradle"
+        nodejs "nodejs"
+    }
+
+    stages {
+        stage('clone'){
+            steps{
+                git credentialsId: '[아카이뷰 깃 비밀키]', 
+                url: '[아카이뷰 깃 URL]'
+            }
+        }
+        stage('Frontend Build'){
+            steps{
+                dir('FrontEnd/b105pjt'){
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
+        stage('Backend API Server Build'){
+            steps{
+                dir('Backend/Archiview'){
+                    sh 'gradle clean build'
+                }
+            }
+        }
+        stage('Signaling API Server Build'){
+            steps{
+                dir('Backend/SignalingServer'){
+                    sh 'gradle clean build'
+                }
+            }
+        }
+        stage('deploy'){
+            steps{
+                sh 'sudo docker compose down'
+                sh 'sudo docker compose up -d --build'
+            }
+        }
+    }
+}

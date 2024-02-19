@@ -14,6 +14,7 @@ import "../assets/css/HOM_P_01.css";
 import { useNavigate } from "react-router-dom";
 import { getCompanyList } from "../api/commonsAPI";
 import { useDispatch } from "react-redux";
+import { updateCompany } from "../store/slice/replySlice";
 
 const HOM_P_01 = () => {
   const [company, setCompany] = useState([]);
@@ -30,26 +31,28 @@ const HOM_P_01 = () => {
     if (value !== null) {
       setCompanyName(value.name);
       setCompanyId(value.id);
-      console.log(companyId, companyName);
-      dispatch({
-        type: "UPDATE_SELECTED_COMPANY",
-        selectedCompany: {
-          id: companyId,
-          name: companyName,
-        },
-      })
+
+      dispatch(
+        updateCompany({
+          selectedCompany: {
+            id: companyId,
+            name: companyName,
+          },
+        })
+      );
     }
   }
 
   const handleSearchBtn = () => {
-    dispatch({
-      type: "UPDATE_SELECTED_COMPANY",
-      selectedCompany: {
-        id: companyId || -1,
-        name: companyName || "",
-      },
-    });
-    navigate("/search", {replace: true});
+    dispatch(
+      updateCompany({
+        selectedCompany: {
+          id: companyId || -1,
+          name: companyName || "",
+        },
+      })
+    );
+    navigate("/search", { replace: true });
   };
 
   const handleKeyPress = (e) => {

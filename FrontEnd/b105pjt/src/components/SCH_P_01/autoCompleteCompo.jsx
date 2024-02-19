@@ -7,6 +7,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { useEffect, useState } from "react";
 import { getCompanyList } from "../../api/commonsAPI";
 import { useSelector, useDispatch } from "react-redux";
+import { updateCompany } from "../../store/slice/replySlice";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -14,7 +15,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 export default function CheckboxesTags() {
   const [companies, setCompanies] = useState([]);
 
-  const selectedCompany = useSelector((state) => state.selectedCompany);
+  const { selectedCompany } = useSelector((state) => state.reply);
   const dispatch = useDispatch();
 
   function handlebox(value) {
@@ -24,13 +25,14 @@ export default function CheckboxesTags() {
       companyName = value.name;
       companyId = value.id;
     }
-    dispatch({
-      type: "UPDATE_SELECTED_COMPANY",
-      selectedCompany: {
-        id: companyId,
-        name: companyName,
-      },
-    });
+    dispatch(
+      updateCompany({
+        selectedCompany: {
+          id: companyId,
+          name: companyName,
+        },
+      })
+    );
   }
 
   useEffect(() => {

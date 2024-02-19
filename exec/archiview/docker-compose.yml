@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+    archiview:
+        build:
+            context: ./Backend/Archiview
+        restart: on-failure
+        container_name: archiview-server
+        ports:
+            - [유저관리API서버 외부포트]:[유저관리API서버 내부포트]
+
+    signaling-server:
+        build:
+            context: ./Backend/SignalingServer
+        container_name: signaling-server
+        restart: on-failure
+        ports:
+            - [P2P 및 파일서버 HTTP 외부포트]:[P2P 및 파일서버 HTTP 내부포트]
+            - [P2P 및 파일서버 HTTPS 외부포트]:[P2P 및 파일서버 HTTPS 내부포트]
+        environment:
+            TZ: "Asia/Seoul"
+            OPENVIDU_URL: [서버 도메인]:[Openvidu 포트]
+        volumes:
+            - /opt/openvidu/recordings:/opt/openvidu/recordings
+            - /opt/openvidu/profiles:/opt/openvidu/profiles
+networks:
+    default:
+        external:
+            name: openvidu_default

@@ -1,0 +1,14 @@
+version: "3.0"
+services:
+    redis:
+        image: redis:latest
+        container_name: redis
+        restart: on-failure
+        ports:
+            - 6379:6379
+        command: redis-server 
+networks:
+    default:
+        external:
+            name: openvidu_default
+

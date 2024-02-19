@@ -1,0 +1,16 @@
+version: "3.0"
+services:
+        mysql:
+                image: mysql:8.0.35
+                container_name: mysql
+                restart: on-failure
+                ports:
+                        - [MySQL 외부포트]:[MySQL 내부포트]
+                environment:
+                        MYSQL_ROOT_PASSWORD: [MySQL Root 계정 패스워드]
+                        MYSQL_DATABASE: [데이터베이스 명]
+                        MYSQL_USER: [MySQL 접속 사용자명]
+                        MYSQL_PASSWORD: [MySQL 접속 비밀번호]
+                command:
+                        - --character-set-server=utf8mb4
+                        - --collation-server=utf8mb4_unicode_ci

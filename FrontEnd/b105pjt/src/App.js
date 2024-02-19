@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { createStore } from "redux";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import HOM_P_01 from "./pages/HOM_P_01";
 import MYI_P_02_Modify from "./pages/MYI_P_02_Modify";
@@ -21,6 +20,7 @@ import Navbar from "./components/utils/navbar";
 import { Box, Modal } from "@mui/material";
 import LOG_M_01 from "./pages/LOG_M_01";
 import AlertModal from "./components/utils/alertModal";
+import { closeModal } from "./store/slice/modalSlice";
 
 const style = {
   position: "absolute",
@@ -38,95 +38,29 @@ const style = {
   borderRadius: "10px",
 };
 
-const initialState = {
-  isLoggedIn: false,
-  isLoading: false,
-  role: "",
-  userId: "",
-  profile: "",
-  accessToken: "",
-  isModalOpen: false,
-  isAlertOpen: false,
-  alertMessage: "",
-  selectedCompany: {
-    id: -1,
-    name: "",
-  },
-};
-
-// 리듀서
-export function authReducer(state = initialState, action) {
-  switch (action.type) {
-    //Login
-    case "LOGIN":
-      return {
-        ...state,
-        isLoggedIn: true,
-        accessToken: action.accessToken,
-        role: action.role,
-        userId: action.userId,
-        profile: action.profile,
-      };
-    case "LOGOUT":
-      return {
-        ...state,
-        isLoggedIn: false,
-        accessToken: "",
-        profile: "",
-        userId: "",
-        role: "",
-      };
-
-    //Loading
-    case "SET_LOADING":
-      return { ...state, isLoading: true };
-    case "UNSET_LOADING":
-      return { ...state, isLoading: false };
-
-    case "OPEN_MODAL":
-      return { ...state, isModalOpen: true };
-    case "CLOSE_MODAL":
-      return { ...state, isModalOpen: false };
-
-    case "OPEN_ALERT":
-      return {
-        ...state,
-        isAlertOpen: true,
-        alertMessage: action.payload.message,
-      };
-    case "CLOSE_ALERT":
-      return { ...state, isAlertOpen: false };
-
-    case "UPDATE_PROFILE":
-      return { ...state, profile: action.profile };
-    case "UPDATE_SELECTED_COMPANY":
-      return { ...state, selectedCompany: action.selectedCompany };
-    default:
-      return state;
-  }
-}
-
 // 애플리케이션의 루트 컴포넌트
 function App() {
   const dispatch = useDispatch();
-  const isModalOpen = useSelector((state) => state.isModalOpen);
-
-  const closeModal = () => {
-    dispatch({ type: "CLOSE_MODAL" });
+  const { isModalOpen } = useSelector((state) => state.modal);
+  const close = () => {
+    dispatch(closeModal());
   };
+
   return (
     <>
-      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <div
+        style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      >
         <Loading />
         {/* 로그인 모달 */}
         <Modal
           open={isModalOpen}
-          onClose={closeModal}
+          onClose={close}
           aria-labelledby="parent-modal-title"
           aria-describedby="parent-modal-description"
         >
           <Box sx={{ ...style, width: 400 }}>
-            <LOG_M_01 close={closeModal}></LOG_M_01>
+            <LOG_M_01></LOG_M_01>
           </Box>
         </Modal>
         {/* 경고 모달 */}

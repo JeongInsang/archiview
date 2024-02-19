@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
+import { setLoading, unSetLoading } from "../../store/slice/loadingSlice";
 
 let session;
 let publisher;
@@ -42,16 +43,16 @@ const MakeSession = async (videoRef, dispatch) => {
       },
       () => {
         session.publish(publisher);
-        dispatch({ type: "UNSET_LOADING" });
+        dispatch(unSetLoading());
       },
       (error) => {
         console.error(error);
-        dispatch({ type: "UNSET_LOADING" }); // 여기서도 로딩을 해제할 수 있지만, 오류를 적절히 처리하는 것이 중요합니다.
+        dispatch(unSetLoading()); // 여기서도 로딩을 해제할 수 있지만, 오류를 적절히 처리하는 것이 중요합니다.
       }
     );
   } catch (error) {
     console.error("세션 설정 중 오류 발생:", error);
-    dispatch({ type: "UNSET_LOADING" });
+    dispatch(unSetLoading());
   }
 };
 
@@ -63,7 +64,7 @@ const OpenVideo = ({ setSessionUrl }) => {
 
   useEffect(() => {
     // 컴포넌트 정리
-    dispatch({ type: "SET_LOADING" });
+    dispatch(setLoading());
 
     MakeSession(videoRef, dispatch)
       .then(() => {
@@ -71,7 +72,7 @@ const OpenVideo = ({ setSessionUrl }) => {
       })
       .catch((error) => {
         console.error("MakeSession 오류:", error);
-        dispatch({ type: "UNSET_LOADING" });
+        dispatch(unSetLoading());
       });
 
     return () => {
@@ -87,7 +88,7 @@ const OpenVideo = ({ setSessionUrl }) => {
   }, []);
 
   const handleRecordStart = () => {
-    dispatch({ type: "SET_LOADING" });
+    dispatch(setLoading());
     startRecording(
       {
         session: session.sessionId,
@@ -97,16 +98,16 @@ const OpenVideo = ({ setSessionUrl }) => {
       },
       (resp) => {
         setIsRecording(true);
-        dispatch({ type: "UNSET_LOADING" });
+        dispatch(unSetLoading());
       },
       (error) => {
-        dispatch({ type: "UNSET_LOADING" });
+        dispatch(unSetLoading());
       }
     );
   };
 
   const handleRecordStop = () => {
-    dispatch({ type: "SET_LOADING" });
+    dispatch(setLoading());
     let urlSession = session.sessionId;
     setSessionUrl(session.sessionId);
     stopRecording(
@@ -125,19 +126,19 @@ const OpenVideo = ({ setSessionUrl }) => {
         session.disconnect();
         // End - Signaling Server API
 
-        dispatch({ type: "UNSET_LOADING" });
+        dispatch(unSetLoading());
       },
       (error) => {
-        dispatch({ type: "UNSET_LOADING" });
+        dispatch(unSetLoading());
       }
     );
   };
 
   const handleRestartRecording = () => {
-    dispatch({ type: "SET_LOADING" });
+    dispatch(setLoading());
     MakeSession(videoRef, dispatch);
     setRecordingURL("");
-    dispatch({ type: "UNSET_LOADING" });
+    dispatch(unSetLoading());
   };
 
   return (

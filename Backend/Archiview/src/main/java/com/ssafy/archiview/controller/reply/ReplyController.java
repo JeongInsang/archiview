@@ -8,6 +8,7 @@ import com.ssafy.archiview.service.reply.ReplyService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.ssafy.archiview.jwt.jwtUtil;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class ReplyController {
     private final ReplyService service;
     private final jwtUtil jwtUtil;
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> replyDetail(@PathVariable("id") int id, HttpServletRequest request) {
         String userId = jwtUtil.getUsername(request);
@@ -47,6 +49,7 @@ public class ReplyController {
         return SuccessResponse.createSuccess(SuccessCode.MODIFY_REPLY_SUCCESS);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
     @PostMapping("/{id}/like")
     public ResponseEntity<Object> replyLike(@PathVariable("id") int id, HttpServletRequest request) {
         String userId = jwtUtil.getUsername(request);
@@ -57,11 +60,13 @@ public class ReplyController {
         return SuccessResponse.createSuccess(SuccessCode.CREATE_LIKE_SUCCESS, responseDto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
     @DeleteMapping("/{id}/like")
     public ResponseEntity<Object> replyLikeDelete(@PathVariable("id") int id, HttpServletRequest request) {
         service.replyLikeDelete(new ReplyDto.LikeDeleteRequest(id, jwtUtil.getUsername(request)));
         return SuccessResponse.createSuccess(SuccessCode.DELETE_LIKE_SUCCESS);
     }
+
 
     @PostMapping("/{id}/comment")
     public ResponseEntity<Object> replyComment(@PathVariable("id") int id, @RequestBody CommentDto.request requestDto, HttpServletRequest request) {

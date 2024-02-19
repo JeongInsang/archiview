@@ -15,6 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { selectAllRecruits, selectCompanyRecruits } from "../api/calendarAPI";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useDispatch, useSelector } from "react-redux";
+import { setLoading, unSetLoading } from "../store/slice/loadingSlice";
 
 let today = new Date();
 let year = today.getFullYear(); // 년도
@@ -106,24 +107,24 @@ const FullCalendarContainer = styled.div`
 `;
 const CAL_P_01 = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.isLoading);
+  const { isLoading } = useSelector((state) => state.loading);
   const [open, setOpen] = useState(false);
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
 
   const selectRecruit = () => {
-    dispatch({ type: "SET_LOADING" });
+    dispatch(setLoading());
     selectAllRecruits(
       date,
       (resp) => {
         if (resp.data.data) {
           setEvents(transformEventData(resp.data.data));
         }
-        dispatch({ type: "UNSET_LOADING" });
+        dispatch(unSetLoading());
       },
       (error) => {
-        dispatch({ type: "UNSET_LOADING" });
+        dispatch(unSetLoading());
       }
     );
   };

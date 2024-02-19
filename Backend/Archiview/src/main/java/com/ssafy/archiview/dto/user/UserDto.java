@@ -112,7 +112,6 @@ public class UserDto {
                     .profileUrl(profileUrl)
                     .introduce(introduce)
                     .role(role)
-                    .refreshToken(refreshToken)
                     .build();
         }
     }

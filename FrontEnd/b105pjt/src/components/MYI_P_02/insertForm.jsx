@@ -6,6 +6,8 @@ import OpenVideo from "../MYI_P_02/openVideo";
 import { useState } from "react";
 import { createReply } from "../../api/replyAPI";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateCompany } from "../../store/slice/replySlice";
 
 const InsertForm = () => {
   const navigate = useNavigate();
@@ -14,13 +16,15 @@ const InsertForm = () => {
   // 실제 데이터로 수정할 때 주석 해제하고 더미데이터 삭제할 것
   const [content, setContent] = useState();
   const [script, setScript] = useState();
-  const [companyId, setCompanyId] = useState();
   const [csList, setCsList] = useState();
   const [jobList, setJobList] = useState();
   const [sessionUrl, setSessionUrl] = useState();
 
   const [questions, setQuestions] = useState();
   const [userId, setUserId] = useState();
+
+  const dispatch = useDispatch();
+  const { selectedCompany } = useSelector((state) => state.reply);
 
   function handlerContent(event) {
     setContent(event.target.value);
@@ -35,7 +39,7 @@ const InsertForm = () => {
         Authorization: accessToken,
       },
       {
-        companyId: companyId,
+        companyId: selectedCompany.id,
         content: content,
 
         csList: csList,
@@ -68,7 +72,6 @@ const InsertForm = () => {
       <div className="Insert-search">
         <SearchTab
           setQuestions={setQuestions}
-          setCompanyId={setCompanyId}
           setCsList={setCsList}
           setJobList={setJobList}
           userId={userId}

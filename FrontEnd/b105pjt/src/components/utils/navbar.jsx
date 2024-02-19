@@ -18,12 +18,14 @@ import Logo from "../../assets/img/symbolLogo_Slogun-removebg-preview.png";
 import User from "../../assets/img/user.png";
 import { removeCookie } from "../../utils/cookie";
 import { useSelector } from "react-redux";
+import { userLogout } from "../../store/slice/userSlice";
+import { updateCompany } from "../../store/slice/replySlice";
+import { openModal } from "../../store/slice/modalSlice";
 
 function Navbar() {
-  const role = useSelector((state) => state.role);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  const profile = useSelector((state) => state.profile);
-  const accessToken = localStorage.getItem("accessToken");
+  const { role, isLoggedIn, profile, accessToken } = useSelector(
+    (state) => state.user
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation(); // 현재 경로 정보를 얻어오기 위해 useLocation 사용
@@ -57,7 +59,7 @@ function Navbar() {
         //
       }
     );
-    dispatch({ type: "LOGOUT", accessToken: "" });
+    dispatch(userLogout());
     removeCookie("refreshToken");
     navigate("/", { replace: true });
   };
@@ -73,13 +75,15 @@ function Navbar() {
   };
 
   // 상세 검색 클릭시
-  const handleSearch = () => {dispatch({
-    type: "UPDATE_SELECTED_COMPANY",
-    selectedCompany: {
-      id: -1,
-      name: "",
-    },
-  });
+  const handleSearch = () => {
+    dispatch(
+      updateCompany({
+        selectedCompany: {
+          id: -1,
+          name: "",
+        },
+      })
+    );
     navigate("/search", { replace: true });
   };
 
@@ -102,8 +106,8 @@ function Navbar() {
   };
 
   // 모달 열기
-  const openModal = () => {
-    dispatch({ type: "OPEN_MODAL" });
+  const modalOpen = () => {
+    dispatch(openModal());
   };
 
   return (
@@ -281,7 +285,7 @@ function Navbar() {
             ) : (
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Button
-                  onClick={openModal}
+                  onClick={modalOpen}
                   sx={{
                     color: "#222222",
                     display: "flex",

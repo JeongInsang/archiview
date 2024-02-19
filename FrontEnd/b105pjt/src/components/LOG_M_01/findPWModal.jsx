@@ -8,7 +8,7 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { Tune } from "@mui/icons-material";
 import { sendFindEmail, findPW } from "../../api/userAPI";
 
-const FindPWModal = ({ onSwitch, setToken, data }) => {
+const FindPWModal = ({ onSwitch, setEmailToken, data }) => {
   const [showSignupFields, setShowSignupFields] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isChangeBtnDisabled, setIsChangeBtnDisabled] = useState(true);
@@ -18,7 +18,6 @@ const FindPWModal = ({ onSwitch, setToken, data }) => {
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const [emailValue, setEmailValue] = useState("");
   const [idValue, setIdValue] = useState("");
-  const [emailToken, setemailToken] = useState("");
   const [authNum, setAuthNum] = useState("");
   const [inputAuthNum, setInputAuthNum] = useState("");
 
@@ -49,7 +48,7 @@ const FindPWModal = ({ onSwitch, setToken, data }) => {
       { email: emailValue },
       (resp) => {
         setShowSignupFields(true); // 인증번호 필드를 보여줌
-        setemailToken(resp.data.data.emailToken);
+        setEmailToken(resp.data.data.emailToken);
         setAuthNum(resp.data.data.authNumber);
       },
       (error) => {
@@ -74,11 +73,10 @@ const FindPWModal = ({ onSwitch, setToken, data }) => {
         email: emailValue,
       },
       (resp) => {
-        setToken(emailToken);
         onSwitch("ChangePW");
       },
       (error) => {
-        alert(error.response.data.message);
+        alert("인증에 실패했습니다.");
       }
     );
   };

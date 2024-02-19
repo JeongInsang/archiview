@@ -19,6 +19,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { questionSearch } from "../../api/questionAPI";
 import { getJobPostingDetail } from "../../api/commonsAPI";
 import { useDispatch, useSelector } from "react-redux";
+import { updateCompany } from "../../store/slice/replySlice";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -75,7 +76,7 @@ export default function TabCompo({
   const [tabCsList, setTabCsList] = useState([]);
   const [tabJobList, setTabJobList] = useState([]);
   const [isClick, setisClick] = useState(false);
-  const selectedCompany = useSelector((state) => state.selectedCompany);
+  const { selectedCompany } = useSelector((state) => state.reply);
 
   useEffect(() => {
     if (setCsList && setJobList) {
@@ -144,13 +145,14 @@ export default function TabCompo({
     setChecked([]);
     setPickTagList([]);
     setQuestions([]);
-    dispatch({
-      type: "UPDATE_SELECTED_COMPANY",
-      selectedCompany: {
-        id: "",
-        name: "",
-      },
-    });
+    dispatch(
+      updateCompany({
+        selectedCompany: {
+          id: "",
+          name: "",
+        },
+      })
+    );
   };
 
   const handleOpenSearchBar = () => {
@@ -187,10 +189,10 @@ export default function TabCompo({
     await questionSearch(data).then((res) => {
       if (res.data.data) {
         if (!isClick) {
-          updateSearch(parsingData(res.data.data));
+          updateSearch(res.data.data);
           setisClick(true);
         } else {
-          updateSearch([...questions, ...parsingData(res.data.data)]);
+          updateSearch([...questions, ...res.data.data]);
         }
       } else {
         if (!isClick) {
@@ -203,16 +205,6 @@ export default function TabCompo({
   const updateSearch = async (updateQuestions) => {
     setQuestions(updateQuestions);
     setPgno((page) => page + 1);
-  };
-
-  const parsingData = (data) => {
-    return data.map((item) => {
-      return {
-        id: item.id,
-        content: item.content,
-        replies: item.replies,
-      };
-    });
   };
 
   return (

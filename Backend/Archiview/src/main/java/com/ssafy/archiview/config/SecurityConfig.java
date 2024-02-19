@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -27,6 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
     //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     private final AuthenticationConfiguration authenticationConfiguration;
@@ -58,16 +60,14 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // URL Mapping
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("api/admin/**").hasRole("ADMIN")  // ADMIN 접근 가능
-//                        .requestMatchers(HttpMethod.GET, "api/replies/**").hasAnyRole("MEMBER", "ADMIN")  // 답변상세조회
-//                        .requestMatchers(HttpMethod.POST, "api/replies/**").hasAnyRole("MEMBER", "ADMIN")  // 댓글작성, 좋아요
-//                        .requestMatchers(HttpMethod.DELETE, "api/replies/**").hasAnyRole("MEMBER", "ADMIN")  // 댓글삭제, 좋아요 취소
-                        .requestMatchers("/api/replies").permitAll()  // 답변 등록 허용
-                        .requestMatchers(HttpMethod.POST ,"/api/users").permitAll()  // 회원가입 허용
-                        .requestMatchers(HttpMethod.POST ,"api/users/login").permitAll()  // 로그인 허용
-                        .requestMatchers("api/users/find-id", "api/users/find-password").permitAll()  // 아이디 찾기, 패스워드 찾기 허용
-                        .requestMatchers("api/users/find-email", "api/users/join-email").permitAll()  // 이메일 인증 요청 허용
-                        .requestMatchers("api/questions/**", "api/recruits/**", "api/commons/**").permitAll() // ~ 허용
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")  // ADMIN 접근 가능
+                        .requestMatchers("/api/users/**").permitAll()
+//                        .requestMatchers("/api/users").permitAll()
+                        .requestMatchers("/api/token/**").permitAll()
+                        .requestMatchers("/api/replies/**").permitAll()  // 답변
+                        .requestMatchers("/api/recruits/**").permitAll() //  채용공고
+                        .requestMatchers("/api/questions/**").permitAll() //  질문
+                        .requestMatchers("/api/commons/**").permitAll()
                         .anyRequest().authenticated())  // 나머지 요청은 모두 인증 되어야 함.
 
                 .addFilterBefore(jsonUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
