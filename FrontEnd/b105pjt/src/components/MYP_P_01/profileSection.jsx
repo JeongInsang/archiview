@@ -153,7 +153,7 @@ const ProfileEditModal = ({ open, handleCancle, setIntroduce, introduce }) => {
       uploadProfileImage(userId, formData, (resp) => {
         let profileURL;
         if (profile.includes("https")) {
-          profileURL = "http://i10b105.p.ssafy.io/api/files/profile/" + userId;
+          profileURL = "/profile/" + userId;
         } else {
           profileURL = "홈페이지 URL/api/files/profile/" + userId;
         }

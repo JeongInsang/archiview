@@ -181,10 +181,7 @@ function SCH_P_01() {
                           ? "blur(0px)"
                           : "blur(10px)",
                     }}
-                    image={
-                      "https://i10b105.p.ssafy.io/api/files/thumbnail/" +
-                      reply.thumbnailUrl
-                    }
+                    image={"홈페이지 URL/thumbnail/" + reply.thumbnailUrl}
                     alt="Thumbnail Image"
                   />
                   <CardContent>

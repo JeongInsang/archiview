@@ -78,7 +78,7 @@ const LoginModal = ({ onSwitch }) => {
               role: resp.data.data.role,
               userId: resp.data.data.id,
               profile:
-                "https://i10b105.p.ssafy.io/api/files/profile/" +
+                "홈페이지 URL/profile/" +
                 resp.data.data.id,
             })
           );
