@@ -19,7 +19,7 @@ services:
             - 12443:12443
         environment:
             TZ: "Asia/Seoul"
-            OPENVIDU_URL: https://i10b105.p.ssafy.io:5443
+            OPENVIDU_URL: [OPENVIDU_URL]
         volumes:
             - /opt/openvidu/recordings:/opt/openvidu/recordings
             - /opt/openvidu/profiles:/opt/openvidu/profiles
