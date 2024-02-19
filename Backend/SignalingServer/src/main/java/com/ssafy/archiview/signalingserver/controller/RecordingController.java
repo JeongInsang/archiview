@@ -122,17 +122,6 @@ public class RecordingController {
     public ResponseEntity<JsonObject> closeSession(@RequestParam("sessionName") String sessionName) throws Exception {
         logger.info("RecordingController -> closeSession | " + sessionName);
 
-        //String session = (String) sessionName.get("sessionName");
-
-        // 세션 존재
-//        if (this.mapSessions.get(session) != null && this.mapSessionNamesTokens.get(session) != null) {
-//            Session s = this.mapSessions.get(session);
-//            s.close();
-//            this.mapSessions.remove(session);
-//            this.mapSessionNamesTokens.remove(session);
-//            this.sessionRecordings.remove(s.getSessionId());
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }
         if (this.mapSessions.get(sessionName) != null && this.mapSessionNamesTokens.get(sessionName) != null) {
             Session s = this.mapSessions.get(sessionName);
             s.close();
